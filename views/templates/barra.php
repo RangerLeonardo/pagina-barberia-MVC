@@ -1,13 +1,12 @@
-<div class="barra">Bienvenido <?php echo $nombre ?? ""?>  
+<div class="barra">
+    <p>Hola: <?php echo $nombre ?? ''; ?></p>
     <a class="boton" href="/logout">Cerrar Sesión</a>
 </div>
 
-<?php  if(isset($_SESSION["admin"])):?>
+<?php if(isset($_SESSION['admin'])) { ?>
     <div class="barra-servicios">
-        <a href="/admin" class="boton">Ver Citas</a>
-        <a href="/servicios" class="boton">Ver Servicios</a>
-        <a href="/servicios/crear" class="boton">Crear Servicios</a>
+        <a class="boton" href="/admin">Ver Citas</a>
+        <a class="boton" href="/servicios">Ver Servicios</a>
+        <a class="boton" href="/servicios/crear">Nuevo Servicio</a>
     </div>
-        
- 
-<?php endif?>
+<?php } ?>

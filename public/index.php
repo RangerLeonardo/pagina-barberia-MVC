@@ -1,5 +1,7 @@
 <?php 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . '/../includes/app.php';
 
 use Controllers\AdminController;
@@ -8,50 +10,43 @@ use Controllers\CitaController;
 use Controllers\LoginController;
 use Controllers\ServicioController;
 use MVC\Router;
-
 $router = new Router();
 
-//Iniciar Sesión
-$router->get("/",[LoginController::class, "login"]);
-$router->post("/",[LoginController::class, "login"]);
-$router->get("/logout",[LoginController::class, "logout"]);
+// Iniciar Sesión
+$router->get('/', [LoginController::class, 'login']);
+$router->post('/', [LoginController::class, 'login']);
+$router->get('/logout', [LoginController::class, 'logout']);
 
-//Recuperar Password enviando correo
-$router->get("/olvide",[LoginController::class, "olvide"]);
-$router->post("/olvide",[LoginController::class, "olvide"]);
+// Recuperar Password
+$router->get('/olvide', [LoginController::class, 'olvide']);
+$router->post('/olvide', [LoginController::class, 'olvide']);
+$router->get('/recuperar', [LoginController::class, 'recuperar']);
+$router->post('/recuperar', [LoginController::class, 'recuperar']);
 
-//en la página para cambiar la contraseña
-$router->get("/recuperar",[LoginController::class, "recuperar"]);
-$router->post("/recuperar",[LoginController::class, "recuperar"]);
+// Crear Cuenta
+$router->get('/crear-cuenta', [LoginController::class, 'crear']);
+$router->post('/crear-cuenta', [LoginController::class, 'crear']);
 
-//crear las cuentas
-$router->get("/crear_cuenta",[LoginController::class, "crear"]);
-$router->post("/crear_cuenta",[LoginController::class, "crear"]);
+// Confirmar cuenta
+$router->get('/confirmar-cuenta', [LoginController::class, 'confirmar']);
+$router->get('/mensaje', [LoginController::class, 'mensaje']);
 
-//confirmar la cuenta
-$router->get("/confirmar_cuenta",[LoginController::class, "confirmar"]);
-$router->get("/mensaje",[LoginController::class, "mensajeC"]);
+// AREA PRIVADA
+$router->get('/cita', [CitaController::class, 'index']);
+$router->get('/admin', [AdminController::class, 'index']);
 
-//area privada ya iniciando sesión
-$router->get("/cita",[CitaController::class, "index"]);
-$router->get("/admin",[AdminController::class, "indexAdmin"]);
+// API de Citas
+$router->get('/api/servicios', [APIController::class, 'index']);
+$router->post('/api/citas', [APIController::class, 'guardar']);
+$router->post('/api/eliminar', [APIController::class, 'eliminar']);
 
-//API de Citas
-$router->get("/api/servicios",[APIController::class, "indexAPI"]);
-$router->post("/api/citas",[APIController::class, "guardarCita"]);
-$router->post("/api/eliminar",[APIController::class, "eliminarCita"]);
-
-//CRUD de servicios
-$router->get("/servicios",[ServicioController::class, "indexCRUD"]);
-$router->get("/servicios/crear",[ServicioController::class, "crearServicios"]);
-$router->post("/servicios/crear",[ServicioController::class, "crearServicios"]);
-$router->get("/servicios/actualizar",[ServicioController::class, "actualizarServicios"]);
-$router->post("/servicios/actualizar",[ServicioController::class, "actualizarServicios"]);
-$router->post("/servicios/eliminar",[ServicioController::class, "eliminarServicios"]);
-
-
-
-
+// CRUD de Servicios
+$router->get('/servicios', [ServicioController::class, 'index']);
+$router->get('/servicios/crear', [ServicioController::class, 'crear']);
+$router->post('/servicios/crear', [ServicioController::class, 'crear']);
+$router->get('/servicios/actualizar', [ServicioController::class, 'actualizar']);
+$router->post('/servicios/actualizar', [ServicioController::class, 'actualizar']);
+$router->post('/servicios/eliminar', [ServicioController::class, 'eliminar']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
